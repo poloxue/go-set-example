@@ -132,12 +132,19 @@ func (set *BitSet) Union(other *BitSet) *BitSet {
 
 func (set *BitSet) Difference(other *BitSet) *BitSet {
 	setLen := len(set.data)
+	otherLen := len(other.data)
 
 	differenceSet := &BitSet{
 		data: make([]uint64, setLen),
 	}
 
-	for i := 0; i < setLen; i++ {
+	if setLen > otherLen {
+		copy(differenceSet.data[otherLen:], set.data[otherLen:])
+	}
+
+	minLen := min(setLen, otherLen)
+
+	for i := 0; i < minLen; i++ {
 		differenceSet.data[i] = set.data[i] &^ other.data[i]
 	}
 
