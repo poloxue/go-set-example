@@ -138,11 +138,11 @@ func (set *BitSet) Difference(other *BitSet) *BitSet {
 		data: make([]uint64, setLen),
 	}
 
+	minLen := setLen
 	if setLen > otherLen {
 		copy(differenceSet.data[otherLen:], set.data[otherLen:])
+		minLen = otherLen
 	}
-
-	minLen := min(setLen, otherLen)
 
 	for i := 0; i < minLen; i++ {
 		differenceSet.data[i] = set.data[i] &^ other.data[i]
